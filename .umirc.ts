@@ -11,6 +11,11 @@ export default defineConfig({
             component: '@/pages/index',
             exact: true,
         },
+        {
+            path: '/:id',
+            component: '@/pages/rating',
+            exact: true,
+        },
     ],
     title: false,
     metas: CONFIG.metas,
