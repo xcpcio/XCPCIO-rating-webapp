@@ -67,3 +67,10 @@ jobs:
           release_name: Release ${{ env.VERSION_ID }}
           draft: false # 是否是草稿
           prerelease: false # 是否是预发布
+
+      - name: Invoke workflow in another repo with inputs
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Update And Commit
+          repo: XCPCIO/XCPCIO-rating
+          token: ${{ secrets.GH_TOKEN }}
