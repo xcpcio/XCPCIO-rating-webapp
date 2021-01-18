@@ -40,9 +40,7 @@ class Index extends React.Component {
                                 className={style['border-bottom']}
                                 style={{ display: 'flex', marginTop: '20px' }}
                             >
-                                <div style={{ float: 'left' }}></div>
-                                <div style={{ flex: '1' }}></div>
-                                <div style={{ float: 'right' }}>
+                                <div style={{ float: 'left' }}>
                                     <a
                                         className={[
                                             style.go,
@@ -68,6 +66,8 @@ class Index extends React.Component {
                                         ></span>
                                     </a>
                                 </div>
+                                <div style={{ flex: '1' }}></div>
+                                <div style={{ float: 'right' }}></div>
                             </div>
 
                             {this.state.ratingList.map(
