@@ -2,7 +2,7 @@ import React from 'react';
 import style from './index.less';
 import { Loading } from '@/components/Loading';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Space, Button } from 'antd';
+import { Table, Input, Space, Button, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { RatingConfig, HistoryItem, TeamRating, fetchData } from './model';
 import { RatingSpan } from '@/components/Rating';
@@ -40,6 +40,13 @@ class Rating extends React.Component {
                 width: '20%',
                 align: 'left',
                 ...this.getColumnSearchProps('name'),
+                render: (name: string) => {
+                    return (
+                        <Tooltip placement="bottom" title={name}>
+                            <span className={style.col}>{name}</span>
+                        </Tooltip>
+                    );
+                },
             },
             {
                 title: 'Rating',
@@ -66,6 +73,7 @@ class Rating extends React.Component {
             loaded: true,
             columns: columns,
             tableData: teamRatingList,
+            title: ratingConfig.name,
         });
     }
 
@@ -79,6 +87,7 @@ class Rating extends React.Component {
         loaded: false,
         columns: [],
         tableData: [],
+        title: '',
     };
 
     getColumnSearchProps = (dataIndex) => ({
@@ -176,20 +185,29 @@ class Rating extends React.Component {
                 )}
 
                 {this.state.loaded === true && (
-                    <Table
-                        style={{ paddingTop: 20 }}
-                        size="small"
-                        columns={this.state.columns}
-                        dataSource={this.state.tableData}
-                        className={style.Table}
-                        pagination={{
-                            hideOnSinglePage: true,
-                            showQuickJumper: true,
-                            showSizeChanger: true,
-                            defaultPageSize: 20,
-                            pageSizeOptions: ['10', '20', '30', '50', '100'],
-                        }}
-                    />
+                    <>
+                        <div className={style.title}>{this.state.title}</div>
+                        <Table
+                            style={{ paddingTop: 0 }}
+                            size="small"
+                            columns={this.state.columns}
+                            dataSource={this.state.tableData}
+                            className={style.Table}
+                            pagination={{
+                                hideOnSinglePage: true,
+                                showQuickJumper: true,
+                                showSizeChanger: true,
+                                defaultPageSize: 20,
+                                pageSizeOptions: [
+                                    '10',
+                                    '20',
+                                    '30',
+                                    '50',
+                                    '100',
+                                ],
+                            }}
+                        />
+                    </>
                 )}
             </div>
         );
