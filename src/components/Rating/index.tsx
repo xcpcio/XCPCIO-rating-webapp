@@ -29,20 +29,6 @@ function getRankClassName(rank: string): string {
     return '';
 }
 
-export const HandleLink = ({ handle, rating }) => {
-    return (
-        <a
-            className={[
-                style['rated-user'],
-                style[getRankClassName(getRatingName(rating).toLowerCase())],
-            ].join(' ')}
-            href={``}
-        >
-            {handle}
-        </a>
-    );
-};
-
 export const RatingSpan = ({ rating }) => {
     return (
         <span

@@ -53,7 +53,7 @@ class Rating extends React.Component {
                 dataIndex: 'rating',
                 key: 'rating',
                 align: 'left',
-                width: '10%',
+                width: '15%',
                 sorter: (a: TeamRating, b: TeamRating) => a.rating - b.rating,
                 render: ratingRender,
             },
@@ -62,7 +62,7 @@ class Rating extends React.Component {
                 dataIndex: 'maxRating',
                 key: 'maxRating',
                 align: 'left',
-                width: '10%',
+                width: '15%',
                 sorter: (a: TeamRating, b: TeamRating) =>
                     a.maxRating - b.maxRating,
                 render: ratingRender,
