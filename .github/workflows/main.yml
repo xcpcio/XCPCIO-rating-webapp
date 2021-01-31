@@ -38,6 +38,7 @@ jobs:
           VERSION_ID: ${{ steps.get-version-id.outputs.version-id }}  
         run: |
           sed -i "s|publicPath: '/'|publicPath: '//cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-webapp@${{ env.VERSION_ID }}/'|" config.ts
+          sed -i "s|favicon: '/favicon.ico'|favicon: '//cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-webapp@${{ env.VERSION_ID }}/favicon.ico'|" config.ts
           sed -i "s|baidu: ''|baidu: '${{ secrets.BAIDU_ANALYTICS_ID }}'|" config.ts 
           cat config.ts
           npm install
