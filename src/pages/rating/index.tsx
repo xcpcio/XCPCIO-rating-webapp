@@ -21,7 +21,7 @@ class Rating extends React.Component {
                 title: 'Handle',
                 dataIndex: 'handle',
                 key: 'handle',
-                width: '10%',
+                width: '15%',
                 align: 'left',
                 ...this.getColumnSearchProps('handle'),
             },
@@ -29,7 +29,7 @@ class Rating extends React.Component {
                 title: ratingConfig.organization || 'organization',
                 dataIndex: 'organization',
                 key: 'organization',
-                width: '10%',
+                width: '15%',
                 align: 'left',
                 ...this.getColumnSearchProps('organization'),
             },
@@ -37,7 +37,7 @@ class Rating extends React.Component {
                 title: 'Name',
                 dataIndex: 'name',
                 key: 'name',
-                width: '20%',
+                width: '30%',
                 align: 'left',
                 ...this.getColumnSearchProps('name'),
                 render: (name: string) => {
@@ -53,7 +53,7 @@ class Rating extends React.Component {
                 dataIndex: 'rating',
                 key: 'rating',
                 align: 'left',
-                width: '15%',
+                width: '20%',
                 sorter: (a: TeamRating, b: TeamRating) => a.rating - b.rating,
                 render: ratingRender,
             },
@@ -62,7 +62,7 @@ class Rating extends React.Component {
                 dataIndex: 'maxRating',
                 key: 'maxRating',
                 align: 'left',
-                width: '15%',
+                width: '20%',
                 sorter: (a: TeamRating, b: TeamRating) =>
                     a.maxRating - b.maxRating,
                 render: ratingRender,
@@ -80,8 +80,6 @@ class Rating extends React.Component {
     constructor(props: any) {
         super(props);
     }
-
-    componentWillReceiveProps(nextProps: any) {}
 
     state = {
         loaded: false,
@@ -193,6 +191,10 @@ class Rating extends React.Component {
                             columns={this.state.columns}
                             dataSource={this.state.tableData}
                             className={style.Table}
+                            // expandable={{
+                            //     expandedRowRender: (record: TeamRating) => <p style={{ margin: 0 }}>{record.name}</p>,
+                            //     rowExpandable: (record: TeamRating) => record.name !== '',
+                            // }}
                             pagination={{
                                 hideOnSinglePage: true,
                                 showQuickJumper: true,

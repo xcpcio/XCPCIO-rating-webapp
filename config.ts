@@ -1,5 +1,6 @@
 export const config = {
     title: 'Rating - XCPCIO',
+    favicon: '/favicon.png',
     publicPath: '/',
     analytics: {
         ga: '',

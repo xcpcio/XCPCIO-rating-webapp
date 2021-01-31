@@ -21,6 +21,7 @@ export default defineConfig({
     metas: CONFIG.metas,
     analytics: CONFIG.analytics,
     hash: true,
+    favicon: CONFIG.favicon,
     publicPath: CONFIG.publicPath,
     proxy: CONFIG.proxy,
 });

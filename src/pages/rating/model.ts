@@ -21,6 +21,7 @@ export interface TeamRating {
     rating: number;
     maxRating: number;
     name?: string;
+    key: string;
 }
 
 function getTeamName(historyList: HistoryItem[]) {
@@ -44,6 +45,7 @@ export async function fetchData(urlPrefix: string) {
         teamRatingDict[k]['name'] = getTeamName(teamRatingDict[k].history).join(
             ', ',
         );
+        teamRatingDict[k]['key'] = teamRatingDict[k]['handle'];
         teamRatingList.push(teamRatingDict[k]);
     }
     teamRatingList.sort((a: TeamRating, b: TeamRating) => {
