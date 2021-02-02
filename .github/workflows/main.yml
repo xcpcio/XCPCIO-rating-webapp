@@ -45,7 +45,7 @@ jobs:
           npm run build
 
       - name: Minify HTML Index
-        uses: Dup4/minify-html-action@v7
+        uses: Dup4/minify-html-action@v9
         with:
           src: './dist/index.html'
 
