@@ -10,15 +10,21 @@ interface Data {
     contestName: string;
     rank: number;
     diffRating: string;
-    ratingName: string;
+    ratingTitle: string;
+    link?: string;
+    teamName?: string;
 }
 
 export interface UserRating {
     contestName: string;
-    handle: string;
     rank: number;
     oldRating: number;
     newRating: number;
+    time: number;
+    link?: string;
+    contestId?: string;
+    handle?: string;
+    teamName?: string;
 }
 
 function getDiffRating(oldRating: number, newRating: number) {
@@ -32,7 +38,7 @@ function getDiffRating(oldRating: number, newRating: number) {
 
 const INF = 0x3f3f3f3f;
 function getRatingGraphOptions(
-    handle: string,
+    // handle: string,
     data: Data[],
     tickPositions: number[],
 ) {
@@ -139,13 +145,13 @@ function getRatingGraphOptions(
             enabled: true,
             headerFormat: '',
             pointFormat:
-                '= {point.y} ({point.diffRating}), {point.ratingName}<br/>Rank: {point.rank}<br/>{point.contestName}',
+                '= {point.y} ({point.diffRating}), {point.ratingTitle}<br/>Rank: {point.rank}<br/>{point.teamName}<br/>{point.contestName}<br/>',
         },
         series: [
             {
                 showInLegend: false,
                 allowPointSelect: true,
-                name: handle,
+                // name: handle,
                 data: data,
             },
         ],
@@ -154,105 +160,87 @@ function getRatingGraphOptions(
 }
 
 class RatingGraph extends React.Component {
-    async fetch(handle: string) {
-        if (this.state.loaded === true) return;
-        const userRating: UserRating[] = (await cf.getUserRating(
-            handle,
-        )) as UserRating[];
-        if (userRating == null) {
-            this.timer = setTimeout(() => {
-                this.fetch(handle);
-            }, 1000);
-        } else {
-            let optionsData: Data[] = [];
-            let tickPositionsAll = [
-                1200,
-                1400,
-                1600,
-                1900,
-                2100,
-                2300,
-                2400,
-                2600,
-                3000,
-            ];
-            let maxRating = 0;
-            let minRating = 1200;
-            userRating.forEach((rating) => {
-                let data: Data = {} as Data;
-                data['x'] = rating.ratingUpdateTimeSeconds * 1000;
-                data['y'] = rating.newRating;
-                data.diffRating = getDiffRating(
-                    rating.oldRating,
-                    rating.newRating,
-                );
-                data.contestName = rating.contestName;
-                data.rank = rating.rank;
-                data.ratingName = getRatingName(rating.newRating);
-                optionsData.push(data);
-                maxRating = Math.max(maxRating, rating.newRating);
-                minRating = Math.min(minRating, rating.newRating);
-            });
-            const gap = 100;
-            minRating = Math.max(0, minRating - gap);
-            maxRating = maxRating + gap;
-            for (let i = 0; i < tickPositionsAll.length; ++i) {
-                if (tickPositionsAll[i] > maxRating) {
-                    maxRating = tickPositionsAll[i];
-                    break;
-                }
+    async fetch(data: UserRating[]) {
+        let optionsData: Data[] = [];
+        let tickPositionsAll = [
+            1200,
+            1400,
+            1600,
+            1900,
+            2100,
+            2300,
+            2400,
+            2600,
+            3000,
+        ];
+        let maxRating = 0;
+        let minRating = 1200;
+        data.forEach((rating) => {
+            let data: Data = {} as Data;
+            data['x'] = rating.time * 1000;
+            data['y'] = rating.newRating;
+            data.diffRating = getDiffRating(rating.oldRating, rating.newRating);
+            data.contestName = rating.contestName;
+            data.rank = rating.rank;
+            data.link = rating.link;
+            data.teamName = rating.teamName;
+            data.ratingTitle = getRatingName(rating.newRating);
+            optionsData.push(data);
+            maxRating = Math.max(maxRating, rating.newRating);
+            minRating = Math.min(minRating, rating.newRating);
+        });
+        const gap = 100;
+        minRating = Math.max(0, minRating - gap);
+        maxRating = maxRating + gap;
+        for (let i = 0; i < tickPositionsAll.length; ++i) {
+            if (tickPositionsAll[i] > maxRating) {
+                maxRating = tickPositionsAll[i];
+                break;
             }
-            for (let i = tickPositionsAll.length - 1; i >= 0; --i) {
-                if (tickPositionsAll[i] < minRating) {
-                    minRating = tickPositionsAll[i];
-                    break;
-                }
-            }
-            if (minRating < 1200) {
-                tickPositionsAll = [minRating, ...tickPositionsAll];
-            }
-            if (maxRating > 3000) {
-                tickPositionsAll.push(maxRating);
-            }
-            this.setState({
-                loaded: true,
-                ratingGraphOptions: getRatingGraphOptions(
-                    handle,
-                    optionsData,
-                    tickPositionsAll.filter(
-                        (x) => x >= minRating && x <= maxRating,
-                    ),
-                ),
-            });
         }
+        for (let i = tickPositionsAll.length - 1; i >= 0; --i) {
+            if (tickPositionsAll[i] < minRating) {
+                minRating = tickPositionsAll[i];
+                break;
+            }
+        }
+        if (minRating < 1200) {
+            tickPositionsAll = [minRating, ...tickPositionsAll];
+        }
+        if (maxRating > 3000) {
+            tickPositionsAll.push(maxRating);
+        }
+        this.setState({
+            ratingGraphOptions: getRatingGraphOptions(
+                // handle,
+                optionsData,
+                tickPositionsAll.filter(
+                    (x) => x >= minRating && x <= maxRating,
+                ),
+            ),
+        });
     }
 
-    async componentWillMount() {}
+    async componentWillMount() {
+        this.fetch(this.props.ratingData);
+    }
 
     constructor(props: any) {
         super(props);
     }
 
     state = {
-        loaded: false,
         ratingGraphOptions: null,
     };
 
     render() {
         return (
-            <>
-                {this.state.loaded === false && <Skeleton active={true} />}
-                {this.state.loaded === true && (
-                    <>
-                        <div style={{ marginTop: '-0px' }}>
-                            <HighchartsReact
-                                highcharts={Highcharts}
-                                options={this.state.ratingGraphOptions}
-                            />
-                        </div>
-                    </>
-                )}
-            </>
+            <div>
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.ratingGraphOptions}
+                />
+            </div>
         );
     }
 }

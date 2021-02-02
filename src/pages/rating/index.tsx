@@ -4,8 +4,9 @@ import { Loading } from '@/components/Loading';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Space, Button, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { RatingConfig, HistoryItem, TeamRating, fetchData } from './model';
+import { TeamRating, fetchData } from './model';
 import { RatingSpan } from '@/components/Rating';
+import { RatingGraph } from './components/RatingGraph';
 
 function ratingRender(rating: number) {
     return <RatingSpan rating={rating} />;
@@ -29,7 +30,7 @@ class Rating extends React.Component {
                 title: ratingConfig.organization || 'organization',
                 dataIndex: 'organization',
                 key: 'organization',
-                width: '15%',
+                width: '12%',
                 align: 'left',
                 ...this.getColumnSearchProps('organization'),
             },
@@ -191,22 +192,19 @@ class Rating extends React.Component {
                             columns={this.state.columns}
                             dataSource={this.state.tableData}
                             className={style.Table}
-                            // expandable={{
-                            //     expandedRowRender: (record: TeamRating) => <p style={{ margin: 0 }}>{record.name}</p>,
-                            //     rowExpandable: (record: TeamRating) => record.name !== '',
-                            // }}
+                            expandable={{
+                                columnWidth: '3%',
+                                expandRowByClick: true,
+                                expandedRowRender: (record: TeamRating) => (
+                                    <RatingGraph ratingData={record.history} />
+                                ),
+                            }}
                             pagination={{
                                 hideOnSinglePage: true,
                                 showQuickJumper: true,
                                 showSizeChanger: true,
-                                defaultPageSize: 20,
-                                pageSizeOptions: [
-                                    '10',
-                                    '20',
-                                    '30',
-                                    '50',
-                                    '100',
-                                ],
+                                defaultPageSize: 32,
+                                pageSizeOptions: ['8', '16', '32', '64', '128'],
                             }}
                         />
                     </>
