@@ -25,6 +25,13 @@ class Rating extends React.Component {
                 width: '15%',
                 align: 'left',
                 ...this.getColumnSearchProps('handle'),
+                render: (handle: string) => {
+                    return (
+                        <Tooltip placement="top" title={handle}>
+                            <span className={style.col}>{handle}</span>
+                        </Tooltip>
+                    );
+                },
             },
             {
                 title: ratingConfig.organization || 'organization',
@@ -38,12 +45,12 @@ class Rating extends React.Component {
                 title: 'Name',
                 dataIndex: 'name',
                 key: 'name',
-                width: '30%',
+                width: '50%',
                 align: 'left',
                 ...this.getColumnSearchProps('name'),
                 render: (name: string) => {
                     return (
-                        <Tooltip placement="bottom" title={name}>
+                        <Tooltip placement="top" title={name}>
                             <span className={style.col}>{name}</span>
                         </Tooltip>
                     );
@@ -54,7 +61,7 @@ class Rating extends React.Component {
                 dataIndex: 'rating',
                 key: 'rating',
                 align: 'left',
-                width: '20%',
+                width: '10%',
                 sorter: (a: TeamRating, b: TeamRating) => a.rating - b.rating,
                 render: ratingRender,
             },
@@ -63,7 +70,7 @@ class Rating extends React.Component {
                 dataIndex: 'maxRating',
                 key: 'maxRating',
                 align: 'left',
-                width: '20%',
+                width: '10%',
                 sorter: (a: TeamRating, b: TeamRating) =>
                     a.maxRating - b.maxRating,
                 render: ratingRender,

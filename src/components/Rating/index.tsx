@@ -1,7 +1,7 @@
-import { host } from '@/model';
 import React from 'react';
 import style from './index.less';
 import { getRatingName } from '@/utils';
+import { Tooltip } from 'antd';
 
 function getRankClassName(rank: string): string {
     switch (rank) {
@@ -37,7 +37,10 @@ export const RatingSpan = ({ rating }) => {
                 style[getRankClassName(getRatingName(rating).toLowerCase())]
             }
         >
-            {rating}, {getRatingName(rating)}
+            <Tooltip placement="top" title={getRatingName(rating)}>
+                <span>{rating}</span>
+                <span className={style.col}>{}</span>
+            </Tooltip>
         </span>
     );
 };
