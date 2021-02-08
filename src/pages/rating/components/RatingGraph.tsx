@@ -12,7 +12,7 @@ interface Data {
     diffRating: string;
     ratingTitle: string;
     link?: string;
-    teamName?: string;
+    info?: string;
 }
 
 export interface UserRating {
@@ -23,8 +23,7 @@ export interface UserRating {
     time: number;
     link?: string;
     contestId?: string;
-    handle?: string;
-    teamName?: string;
+    info?: string;
 }
 
 function getDiffRating(oldRating: number, newRating: number) {
@@ -52,10 +51,11 @@ function getRatingGraphOptions(
         },
         xAxis: {
             tickWidth: 0,
-            minPadding: 0.01,
+            gridLineWidth: 0.5,
             minRange: 30 * 24 * 60 * 60 * 1000,
-            gridLineWidth: 1,
             type: 'datetime',
+            showFirstLabel: true,
+            showLastLabel: true,
             dateTimeLabelFormats: { month: '%b %Y' },
         },
         yAxis: {
@@ -64,7 +64,7 @@ function getRatingGraphOptions(
             showLastLabel: false,
             tickPositions: tickPositions,
             tickWidth: 0,
-            gridLineWidth: 1,
+            gridLineWidth: 0.5,
             labels: {
                 enabled: true,
                 format: '{value}',
@@ -76,52 +76,52 @@ function getRatingGraphOptions(
                 {
                     from: 0,
                     to: 1199,
-                    color: '#ccc',
+                    color: '#CCCCCC',
                 },
                 {
                     from: 1200,
                     to: 1399,
-                    color: '#7f7',
+                    color: '#98FA87',
                 },
                 {
                     from: 1400,
                     to: 1599,
-                    color: '#77ddbb',
+                    color: '#90DABD',
                 },
                 {
                     from: 1600,
                     to: 1899,
-                    color: '#aaf',
+                    color: '#A9ACF9',
                 },
                 {
                     from: 1900,
                     to: 2099,
-                    color: '#f8f',
+                    color: '#EF91F9',
                 },
                 {
                     from: 2100,
                     to: 2299,
-                    color: '#ffcc88',
+                    color: '#F7CD91',
                 },
                 {
                     from: 2300,
                     to: 2399,
-                    color: '#ffbb55',
+                    color: '#F5BD67',
                 },
                 {
                     from: 2400,
                     to: 2599,
-                    color: '#f77',
+                    color: '#Ef7F7B',
                 },
                 {
                     from: 2600,
                     to: 2999,
-                    color: '#f33',
+                    color: '#EB483F',
                 },
                 {
                     from: 3000,
                     to: 0x3f3f3f3f,
-                    color: '#a00',
+                    color: '#9C1E14',
                 },
             ],
         },
@@ -130,22 +130,30 @@ function getRatingGraphOptions(
         },
         plotOptions: {
             line: {
-                color: '#efbc47',
+                color: '#ffec3d',
                 dataLabels: {
                     enabled: false,
                 },
                 enableMouseTracking: true,
                 marker: {
                     enabled: true,
-                    fillColor: '#fff566',
+                    fillColor: '#fffb8f',
                 },
             },
         },
         tooltip: {
             enabled: true,
             headerFormat: '',
-            pointFormat:
-                '= {point.y} ({point.diffRating}), {point.ratingTitle}<br/>Rank: {point.rank}<br/>{point.teamName}<br/>{point.contestName}<br/>',
+            useHTML: true,
+            shared: true,
+            shadow: true,
+            followPointer: false,
+            followTouchMove: false,
+            pointFormat: `= {point.y} ({point.diffRating}), {point.ratingTitle}
+                <br/>Rank: {point.rank}
+                <br/>{point.info}
+                <br/><a href="{point.link}">{point.contestName}</a>
+                <br/>`,
         },
         series: [
             {
@@ -182,8 +190,8 @@ class RatingGraph extends React.Component {
             data.diffRating = getDiffRating(rating.oldRating, rating.newRating);
             data.contestName = rating.contestName;
             data.rank = rating.rank;
-            data.link = rating.link;
-            data.teamName = rating.teamName;
+            data.link = rating.link || '';
+            data.info = rating.info || '';
             data.ratingTitle = getRatingName(rating.newRating);
             optionsData.push(data);
             maxRating = Math.max(maxRating, rating.newRating);

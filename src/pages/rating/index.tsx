@@ -42,7 +42,7 @@ class Rating extends React.Component {
                 ...this.getColumnSearchProps('organization'),
             },
             {
-                title: 'Name',
+                title: 'TeamName',
                 dataIndex: 'name',
                 key: 'name',
                 width: '50%',
