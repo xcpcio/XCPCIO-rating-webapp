@@ -1,5 +1,4 @@
 import React from 'react';
-import { Skeleton } from 'antd';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { getRatingName } from '@/utils';
@@ -168,7 +167,7 @@ function getRatingGraphOptions(
 }
 
 class RatingGraph extends React.Component {
-    async fetch(data: UserRating[]) {
+    fetch(data: UserRating[]) {
         let optionsData: Data[] = [];
         let tickPositionsAll = [
             1200,
@@ -229,7 +228,7 @@ class RatingGraph extends React.Component {
         });
     }
 
-    async componentWillMount() {
+    componentWillMount() {
         this.fetch(this.props.ratingData);
     }
 
