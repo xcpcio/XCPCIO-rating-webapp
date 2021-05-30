@@ -18,7 +18,8 @@ export const config = {
     ],
     proxy: {},
     dataHost:
-        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.5.17/',
+        // 'https://raw.githubusercontent.com/XCPCIO/XCPCIO-rating-data/gh-pages/',
+        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.5.31.1/',
 };
 
 export default config;
