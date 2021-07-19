@@ -16,10 +16,16 @@ export const config = {
             content: 'XCPCIO-Rating 主要收录 *CPC 系列竞赛的 Rating 排行榜。',
         },
     ],
-    proxy: {},
+    proxy: {
+        '/site': {
+            target: 'http://127.0.0.1:8080',
+            changeOrigin: true,
+        },
+    },
     dataHost:
+        // '/site/',
         // 'https://raw.githubusercontent.com/XCPCIO/XCPCIO-rating-data/gh-pages/',
-        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.7.19.1/',
+        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.7.19.2/',
 };
 
 export default config;
