@@ -25,7 +25,7 @@ export const config = {
     dataHost:
         // '/site/',
         // 'https://raw.githubusercontent.com/XCPCIO/XCPCIO-rating-data/gh-pages/',
-        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.7.19.2/',
+        'https://cdn.jsdelivr.net/gh/XCPCIO/XCPCIO-rating-data@2021.7.19.4/',
 };
 
 export default config;
