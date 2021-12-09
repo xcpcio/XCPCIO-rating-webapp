@@ -27,7 +27,7 @@
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.5.13",
     "antd": "^4.16.7",
-    "highcharts": "^8.2.2",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^3.0.0",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
@@ -40,5 +40,8 @@
   },
   "engines": {
     "node": ">=14.15.5"
+  },
+  "devDependencies": {
+    "@types/react-highlight-words": "^0.16.3"
   }
 }
